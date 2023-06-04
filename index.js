@@ -1,5 +1,9 @@
 document.querySelector("button").onclick = () => {
-    navigator.bluetooth.requestDevice({ filters: [{ services: ['battery_service'] }] })
+
+    navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+        optionalServices: ['battery_service'] // Required to access service later.
+    })
         .then(device => device.gatt.connect())
         .then(server => {
             // Getting Battery Service…
@@ -16,5 +20,5 @@ document.querySelector("button").onclick = () => {
         .then(value => {
             alert(`Battery percentage is ${value.getUint8(0)}`);
         })
-        .catch(error => { alert(error); });
+        .catch(error => { console.error(error); });
 }
